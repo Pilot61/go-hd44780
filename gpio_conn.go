@@ -9,21 +9,14 @@ import (
 	"time"
 )
 
-// GPIO4bit - interface to lcd by GPIO in 4-bit mode
 type GPIO4bit struct {
 	sync.Mutex
-	
-	// Mapping GPIO - Suvir Kumar Data lines for LCD 420 Module I Used
+
 	RSPin int // GOIO 7   --> Raspberry Physical Pin 26
-	// Enable bit/pin
 	EPin int // GPIO 8    --> Raspberry Physical Pin 24
-	// Data4 bit/pin
 	D4Pin int // GPIO 25  --> Raspberry Physical Pin 22
-	// Data5 bit/pin
 	D5Pin int // GPIO 24  --> Raspberry Physical Pin 18
-	// Data6 bit/pin
 	D6Pin int // GPIO 23  --> Raspberry Physical Pin 16
-	// Data7 bit/pin
 	D7Pin int // GPIO 18  --> Raspberry Physical Pin 12
 
 	// max lines
@@ -47,15 +40,15 @@ type GPIO4bit struct {
 // NewGPIO4bit create new GPIO4bit structure with some defaults
 func NewGPIO4bit() (h *GPIO4bit) {
 	h = &GPIO4bit{
-		RSPin:     7,
-		EPin:      8,
-		D4Pin:     25,
-		D5Pin:     24,
-		D6Pin:     23,
-		D7Pin:     18,
-		Lines:     4,
+		RSPin:     RSPin,
+		EPin:      EPin,
+		D4Pin:     D4Pin,
+		D5Pin:     D5Pin,
+		D6Pin:     D6Pin,
+		D7Pin:     D7Pin,
+		Lines:     Lines,
 		LinesAddr: []byte{lcdLine1, lcdLine2, lcdLine3, lcdLine4},
-		Width:     lcdWidth,
+		Width:     Width,
 	}
 	return
 }
@@ -128,19 +121,19 @@ func (h *GPIO4bit) Clear() {
 	}
 
 	h.writeByte(lcdLine1, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine2, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine3, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine4, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 }
@@ -155,19 +148,19 @@ func (h *GPIO4bit) Close() {
 	}
 
 	h.writeByte(lcdLine1, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine2, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine3, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 	h.writeByte(lcdLine4, lcdCmd)
-	for i := 0; i < lcdWidth; i++ {
+	for i := 0; i < Width; i++ {
 		h.writeByte(' ', lcdChr)
 	}
 
@@ -267,7 +260,7 @@ func (h *GPIO4bit) Display(line int, text string) {
 		return
 	}
 
-	if len(text) < lcdWidth {
+	if len(text) < Width {
 		text = text + strings.Repeat(" ", h.Width-len(text))
 	} else {
 		text = text[:h.Width]

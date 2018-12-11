@@ -1,7 +1,7 @@
 package hd44780
 
 import (
-	"fmt"
+	"log"
 	"sync"
 )
 
@@ -9,12 +9,19 @@ import (
 var lcdtext_last = [4]string{"", "", "", ""}
 var mutex = &sync.Mutex{}
 
-func LcdDisplay(lcdtext_show [4]string) {
+func LcdDisplay(lcdtext_show [4]string, PRSPin int, PEPin int, PD4Pin int, PD5Pin int, PD6Pin int, PD7Pin int) {
+	RSPin = PRSPin
+	EPin = PEPin
+	D4Pin = PD4Pin
+	D5Pin = PD5Pin
+	D6Pin = PD6Pin
+	D7Pin = PD7Pin
+
 	mutex.Lock()
 	defer mutex.Unlock()
 	lcd := NewGPIO4bit()
 	if err := lcd.Open(); err != nil {
-		fmt.Println("Can't open lcd: " + err.Error())
+		log.Println("warn: Can't open lcd: " + err.Error())
 	}
 
 	if lcdtext_show[0] != "nil" && lcdtext_last[0] != lcdtext_show[0] {

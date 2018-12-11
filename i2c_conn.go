@@ -37,7 +37,7 @@ func NewI2C4bit(addr byte) (h *I2C4bit) {
 	h = &I2C4bit{
 		Lines: 2,
 		addr:  addr,
-		Width: lcdWidth,
+		Width: Width,
 	}
 	return
 }
@@ -153,7 +153,7 @@ func (h *I2C4bit) Display(line int, text string) {
 	h.lastLines[line] = text
 
 	textLen := len(text)
-	if textLen < lcdWidth {
+	if textLen < Width {
 		text = text + strings.Repeat(" ", h.Width-textLen)
 	} else if textLen > h.Width {
 		text = text[:h.Width]
