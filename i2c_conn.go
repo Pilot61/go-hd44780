@@ -4,14 +4,14 @@ import (
 	"strings"
 	//	"sync"
 
-	//"github.com/kidoman/embd"
-	//"github.com/kidoman/embd/controller/hd44780"
-	"github.com/zlowred/embd"
-	"github.com/zlowred/embd/controller/hd44780"
+	"github.com/kidoman/embd"
+	"github.com/kidoman/embd/controller/hd44780"
+	//"github.com/zlowred/embd"
+	//"github.com/zlowred/embd/controller/hd44780"
 
 	// load only rpi
-	//_ "github.com/kidoman/embd/host/rpi"
-	_ "github.com/zlowred/embd/host/rpi"
+	_ "github.com/kidoman/embd/host/rpi"
+	//_ "github.com/zlowred/embd/host/rpi"
 )
 
 // I2C4bit allow communicate wit HD44780 via I2C in 4bit mode
@@ -35,9 +35,9 @@ type I2C4bit struct {
 // NewI2C4bit create new I2C4bit structure with some defaults
 func NewI2C4bit(addr byte) (h *I2C4bit) {
 	h = &I2C4bit{
-		Lines: 2,
+		Lines: lcdLines,
 		addr:  addr,
-		Width: Width,
+		Width: lcdWidth,
 	}
 	return
 }
@@ -61,7 +61,7 @@ func (h *I2C4bit) Open() (err error) {
 		bus,
 		h.addr,
 		hd44780.PCF8574PinMap,
-		hd44780.RowAddress16Col,
+		hd44780.RowAddress20Col,
 		hd44780.TwoLine,
 		//		hd44780.BlinkOff,
 		hd44780.CursorOff,
@@ -153,7 +153,7 @@ func (h *I2C4bit) Display(line int, text string) {
 	h.lastLines[line] = text
 
 	textLen := len(text)
-	if textLen < Width {
+	if textLen < lcdWidth {
 		text = text + strings.Repeat(" ", h.Width-textLen)
 	} else if textLen > h.Width {
 		text = text[:h.Width]
