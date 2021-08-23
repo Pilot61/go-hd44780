@@ -2,8 +2,8 @@ package hd44780
 
 import (
 	"strings"
-	"github.com/talkkonnect/embd"
-	"github.com/talkkonnect/embd/controller/hd44780"
+	"github.com/talkkonnect/embed"
+	"github.com/talkkonnect/embed/controller/hd44780"
 	_ "github.com/talkkonnect/embd/host/rpi"
 )
 
